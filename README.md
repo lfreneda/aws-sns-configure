@@ -13,13 +13,12 @@ npm install aws-sns-configure --save-dev
 ### Usage
 
 ```javascript
-const aws = require('aws-sdk')
-aws.config.update({
+const snsConfigure = require('./index')
+snsConfigure.init({
   accessKeyId: 'XXXXXXXXXXXXXXXXXXX',
   secretAccessKey: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
   region: 'sa-east-1'
 })
-const snsConfigure = require('./index')
 
 const topic = await snsConfigure.createOrGetSNSTopicByName('topic-name')
 await snsConfigure.configureSQSSubscriptionWithPermissions({

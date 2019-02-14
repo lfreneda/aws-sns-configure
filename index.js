@@ -1,6 +1,12 @@
 const aws = require('aws-sdk')
-const sns = new aws.SNS()
-const sqs = new aws.SQS()
+let sns = null
+let sqs = null
+
+const init = (awsConfig) => {
+  aws.config.update(awsConfig)
+  sns = new aws.SNS()
+  sqs = new aws.SQS()
+}
 
 const randomNumber = () => {
   return Math.floor(10000000000 + Math.random() * 90000000000)
@@ -192,6 +198,7 @@ const configureSQSSubscriptionWithPermissions = async ({ topicArn, sqsArn }) => 
 }
 
 module.exports = {
+  init,
   createOrGetSNSTopicByName,
   subscribeSQSOnSNSTopic,
   getSQSQueueUrl,

@@ -1,13 +1,12 @@
-const aws = require('aws-sdk')
-aws.config.update({
-  accessKeyId: 'XXXXXXXXXXXXXXXXXXX',
-  secretAccessKey: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
-  region: 'sa-east-1'
-})
 const snsConfigure = require('./index')
 
 async function configure () {
   try {
+    snsConfigure.init({
+      accessKeyId: 'XXXXXXXXXXXXXXXXXXX',
+      secretAccessKey: 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+      region: 'sa-east-1'
+    })
     const topic = await snsConfigure.createOrGetSNSTopicByName('topic-name')
     await snsConfigure.configureSQSSubscriptionWithPermissions({
       topicArn: topic.TopicArn,
