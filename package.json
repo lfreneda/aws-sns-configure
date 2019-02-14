@@ -1,6 +1,6 @@
 {
   "name": "aws-sns-configure",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "High level interface to configure SQS subscriptions (with permissions) to SNS",
   "main": "index.js",
   "author": "Luiz Freneda <lfreneda@gmail.com> (http://www.freneda.com.br)",

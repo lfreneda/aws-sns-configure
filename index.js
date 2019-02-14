@@ -130,7 +130,7 @@ const setSQSPermissions = async ({ queueUrl, policyPermissions }) => {
   return new Promise((resolve, reject) => {
     sqs.setQueueAttributes({
       Attributes: {
-        'Policy': policyPermissions
+        'Policy': JSON.stringify(policyPermissions)
       },
       QueueUrl: queueUrl
     }, rejectIfErrResolveIfResult(resolve, reject))
