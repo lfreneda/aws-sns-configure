@@ -1,4 +1,4 @@
-const snsConfigure = require('./index')
+const snsConfigure = require('./src/index')
 
 async function configure () {
   try {
@@ -8,13 +8,15 @@ async function configure () {
       region: 'sa-east-1'
     })
     const topic = await snsConfigure.createOrGetSNSTopicByName('topic-name')
+
     await snsConfigure.configureSQSSubscriptionWithPermissions({
       topicArn: topic.TopicArn,
       sqsArn: 'arn:aws:sqs:sa-east-1:XXXXXXXXXXXX:queue-name'
     })
+
     console.log(`Uuuuhuul, sqs queue subscribed and configured to receive messages from ${topic.TopicArn}`)
   } catch (err) {
-    console.log('Ooooooops, something wrong happens D:')
+    console.log('Ooooooops, something wrong happens D:', err)
   }
 }
 

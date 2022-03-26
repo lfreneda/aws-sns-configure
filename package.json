@@ -1,22 +1,27 @@
 {
   "name": "aws-sns-configure",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "description": "High level interface to configure SQS subscriptions (with permissions) to SNS",
-  "main": "index.js",
+  "main": "src/index.js",
   "author": "Luiz Freneda <lfreneda@gmail.com> (http://www.freneda.com.br)",
   "license": "ISC",
   "scripts": {
-    "lint": "./node_modules/.bin/eslint --ext .js ./index.js"
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
-    "aws-sdk": "^2.401.0"
+    "aws-sdk": "2.1101.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lfreneda/aws-sns-configure.git"
   },
   "devDependencies": {
-    "eslint": "^5.13.0",
-    "eslint-config-standard": "^12.0.0",
-    "eslint-plugin-import": "^2.16.0",
-    "eslint-plugin-node": "^8.0.1",
-    "eslint-plugin-promise": "^4.0.1",
+    "eslint": "7.32.0",
+    "eslint-config-standard": "16.0.3",
+    "eslint-plugin-import": "2.25.4",
+    "eslint-plugin-node": "11.1.0",
+    "eslint-plugin-promise": "5.2.0",
     "eslint-plugin-standard": "^4.0.0"
   }
 }
