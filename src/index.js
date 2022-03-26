@@ -12,39 +12,24 @@ const randomNumber = () => {
   return Math.floor(10000000000 + Math.random() * 90000000000)
 }
 
-const rejectIfErrResolveIfResult = (resolve, reject) => {
-  return (err, result) => {
-    if (err) {
-      return reject(err)
-    }
-    return resolve(result)
-  }
-}
-
 const listSubscriptionsByTopic = (topicArn, nextToken) => {
-  return new Promise((resolve, reject) => {
-    sns.listSubscriptionsByTopic({
-      TopicArn: topicArn,
-      NextToken: nextToken
-    }, rejectIfErrResolveIfResult(resolve, reject))
-  })
+  return sns.listSubscriptionsByTopic({
+    TopicArn: topicArn,
+    NextToken: nextToken
+  }).promise()
 }
 
 const getQueuePolicyAttributes = (queueUrl) => {
-  return new Promise((resolve, reject) => {
-    sqs.getQueueAttributes({
-      QueueUrl: queueUrl,
-      AttributeNames: ['Policy']
-    }, rejectIfErrResolveIfResult(resolve, reject))
-  })
+  return sqs.getQueueAttributes({
+    QueueUrl: queueUrl,
+    AttributeNames: ['Policy']
+  }).promise()
 }
 
 const createOrGetSNSTopicByName = (topicName) => {
-  return new Promise((resolve, reject) => {
-    sns.createTopic({
-      Name: topicName
-    }, rejectIfErrResolveIfResult(resolve, reject))
-  })
+  return sns.createTopic({
+    Name: topicName
+  }).promise()
 }
 
 const getSQSSubscription = async ({
@@ -106,46 +91,38 @@ const createSQSTopicPermission = ({ sqsArn, topicArn }) => {
 }
 
 const getSQSQueueUrl = ({ queueName }) => {
-  return new Promise((resolve, reject) => {
-    sqs.getQueueUrl({ QueueName: queueName }, rejectIfErrResolveIfResult(resolve, reject))
-  })
+  return sqs.getQueueUrl({ QueueName: queueName }).promise()
 }
 
 const createSQSPermissions = async ({ queueUrl, sqsArn, sendMessagePermission }) => {
-  return new Promise((resolve, reject) => {
-    sqs.setQueueAttributes({
-      Attributes: {
-        'Policy': JSON.stringify({
-          'Version': '2012-10-17',
-          'Id': `${sqsArn}/SQSDefaultPolicy`,
-          'Statement': [sendMessagePermission]
-        })
-      },
-      QueueUrl: queueUrl
-    }, rejectIfErrResolveIfResult(resolve, reject))
-  })
+  return sqs.setQueueAttributes({
+    Attributes: {
+      Policy: JSON.stringify({
+        Version: '2012-10-17',
+        Id: `${sqsArn}/SQSDefaultPolicy`,
+        Statement: [sendMessagePermission]
+      })
+    },
+    QueueUrl: queueUrl
+  }).promise()
 }
 
 const setSQSPermissions = async ({ queueUrl, policyPermissions }) => {
-  return new Promise((resolve, reject) => {
-    sqs.setQueueAttributes({
-      Attributes: {
-        'Policy': JSON.stringify(policyPermissions)
-      },
-      QueueUrl: queueUrl
-    }, rejectIfErrResolveIfResult(resolve, reject))
-  })
+  return sqs.setQueueAttributes({
+    Attributes: {
+      Policy: JSON.stringify(policyPermissions)
+    },
+    QueueUrl: queueUrl
+  }).promise()
 }
 
 const subscribeSQSOnSNSTopic = ({ topicArn, sqsArn }) => {
-  return new Promise((resolve, reject) => {
-    sns.subscribe({
-      Protocol: 'sqs',
-      TopicArn: topicArn,
-      Endpoint: sqsArn,
-      ReturnSubscriptionArn: true
-    }, rejectIfErrResolveIfResult(resolve, reject))
-  })
+  return sns.subscribe({
+    Protocol: 'sqs',
+    TopicArn: topicArn,
+    Endpoint: sqsArn,
+    ReturnSubscriptionArn: true
+  }).promise()
 }
 
 const configureSQSSubscriptionWithPermissions = async ({ topicArn, sqsArn }) => {
